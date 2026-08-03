@@ -1,0 +1,34 @@
+CREATE TABLE IF NOT EXISTS users (
+    user_id BIGSERIAL PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    passwordhash TEXT NOT NULL,
+    timestamp TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS agents (
+    owner_id BIGINT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
+    agent_id BIGSERIAL PRIMARY KEY,
+    agentname TEXT NOT NULL,
+    world_position DOUBLE PRECISION[] NOT NULL,
+    speed DOUBLE PRECISION NOT NULL DEFAULT 0,
+    food_cost INTEGER NOT NULL DEFAULT 0,
+    food_owned INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS destinations (
+    destination_id BIGSERIAL PRIMARY KEY,
+    agent_id BIGINT NOT NULL REFERENCES agents(agent_id) ON DELETE CASCADE,
+    destination_order INTEGER NOT NULL DEFAULT 0,
+    destination_name TEXT NOT NULL,
+    timestamp TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS event_results (
+    event_id BIGSERIAL PRIMARY KEY,
+    agent_id BIGINT NOT NULL REFERENCES agents(agent_id) ON DELETE CASCADE,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    results TEXT NOT NULL,
+    where_position DOUBLE PRECISION[] NOT NULL,
+    timestamp TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
