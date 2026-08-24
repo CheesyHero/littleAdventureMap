@@ -24,3 +24,10 @@ You can evaluate their journey as they go and check up on the logs they print in
 And that's the game!
 Sometimes your heroes find food and a bunch of extra gold.
 Sometimes they get their butts kicked by a bunch of goblins. 
+
+The core elements are all in place.
+I actually plan to update the following elements:
+
+Agents can interact with each other and leave logs.
+A combat system that can incorporate multiple participants and alliances.
+Items such as equipment and consumables you can give your heroes, like antidotes to fight spiders.
