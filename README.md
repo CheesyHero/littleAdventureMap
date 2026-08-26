@@ -51,4 +51,4 @@ Requires Go and PostgreSQL.
 
 Future work includes hero-to-hero interactions, multi-participant combat and alliances, equipment, and consumable items such as antidotes that can help heroes prepare for specific encounters.
 
-The core gameplay loop is already in place: hire, prepare, deploy, simulate, review, return.
+The core gameplay loop is already in place.
