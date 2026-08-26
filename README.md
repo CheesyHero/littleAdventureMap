@@ -23,19 +23,22 @@ Log in or create a new account, hire your first hero, and start a journey.
 - Technical Overview
 
 The project uses a separate client and server so the simulation can continue independently of player input. PostgreSQL stores persistent users, heroes, journey state, and event logs.
-Some of the main engineering challenges have making sure all the syntax is correct. The logic and game data was easy to set up and get working, but saving and iterating to the database when something had a limit or restriction caused some headaches.
+
+The main engineering challenges came from keeping the simulation and database state synchronized while enforcing gameplay restrictions. Individual systems were fairly straightforward to build, but handling database constraints, state transitions, and repeated updates from the simulation required considerably more iteration.
 
 - Running the Project
 
 Requires Go and PostgreSQL.
 
-1: go run server/main.go
+Set your DATABASE_URL and start the server:
 
-2: go run client/main.go
+go run server/main.go
 
-3: Create an account, hire a hero, and send them on a journey.
+In another terminal, start the client:
 
-4: As a user use the '7' command to view your agent on the map live.
+go run client/main.go
+Create an account, hire a hero, and send them on a journey.
+Use command 7 to open the live map and watch your deployed heroes move across the world.
 
 - Roadmap
 
