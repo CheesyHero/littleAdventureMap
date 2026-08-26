@@ -6,32 +6,19 @@ An asynchronous hero-simulation game built with Go and PostgreSQL. Players recru
 
 I wanted to build a game where progress happens over time rather than immediately after a button press. That led me to the idea of sending heroes on journeys that continue independently while a server simulates their progress and records what happens. Little Adventure Map became a way for me to explore persistent state, asynchronous gameplay, and database-driven systems while still building a fun and enjoyable experience.
 
-- How It Works
+- Quick Start
 
-The project has two main programs:
-
-server/main.go
-client/main.go
-
-The server initializes the PostgreSQL database and runs the simulation. While it is running, deployed heroes continue traveling and resolving events every second.
+Make sure PostgreSQL is installed and running, then start the server:
 
 go run server/main.go
 
-The client handles accounts, hero management, journeys, and adventure logs.
+The server will initialize the game database and begin running the simulation.
+
+In a second terminal, start the client:
 
 go run client/main.go
 
-When launching the client, enter a username and password. If the account does not exist, you can create one.
-
-- Gameplay
-
-New players can hire their first hero for free using the 1 command.
-
-Use 2 to start a journey. Select an available hero, choose a starting corner, and enter a destination. The game will estimate the food required before you commit to the journey.
-
-Once deployed, the hero travels independently for several minutes depending on the route.
-
-You can check their progress and read the events generated during the journey through the Manage Heroes menu.
+Log in or create a new account, hire your first hero, and start a journey.
 
 - Technical Overview
 
@@ -47,6 +34,8 @@ Requires Go and PostgreSQL.
 2: go run client/main.go
 
 3: Create an account, hire a hero, and send them on a journey.
+
+4: As a user use the '7' command to view your agent on the map live.
 
 - Roadmap
 
