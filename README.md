@@ -38,11 +38,12 @@ The project uses a separate client and server so the simulation can continue ind
 Some of the main engineering challenges have been managing time-based journeys, hero state transitions, authentication, and keeping database state synchronized with the simulation.
 
 - Running the Project
-- 
 Requires Go and PostgreSQL.
 
 1: go run server/main.go
+
 2: go run client/main.go
+
 3: Create an account, hire a hero, and send them on a journey.
 
 - Roadmap
