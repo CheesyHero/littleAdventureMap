@@ -47,21 +47,21 @@ Little Adventure Map has two command interfaces: the client, used to play the ga
 
 Client Commands
 
-1	Hire a Hero
+1:	Hire a Hero
 
-2	Deploy a Hero on a journey
+2:	Deploy a Hero on a journey
 
-3	Manage Heroes and view adventure logs
+3:	Manage Heroes and view adventure logs
 
-4	View Inventory
+4:	View Inventory
 
-5	Open the Market
+5:	Open the Market
 
-6	Open the Library
+6:	Open the Library
 
-7	View the live world map
+7:	View the live world map
 
-8	Quit
+8:	Quit
 
 The live map displays each deployed hero as a uniquely colored marker and refreshes every second as the server advances the simulation. Press any key to return to the main menu.
 
@@ -69,30 +69,30 @@ Server Commands
 
 The server also provides an admin console for inspecting and controlling the simulation.
 
-0 / help	Show available commands
+0: help	Show available commands
 
-1 / add-user	Create a test user
+1: add-user	Create a test user
 
-2 / print-users	View all users
+2: print-users	View all users
 
-e / edit-user	Edit user progression
+e: edit-user	Edit user progression
 
-3 / add-agent	Create an agent
+3: add-agent	Create an agent
 
-4 / print-agents	View all agents
+4: print-agents	View all agents
 
-a / edit-agent	Edit agent stats
+a: edit-agent	Edit agent stats
 
-5 / set-destination	Deploy an agent to a destination
+5: set-destination	Deploy an agent to a destination
 
-6 / print-destinations	View an agent's route and status
+6: print-destinations	View an agent's route and status
 
-7 / watch-agents	Watch agent movement live
+7: watch-agents	Watch agent movement live
 
-p / pause	Pause or resume the simulation
+p: pause	Pause or resume the simulation
 
-8 / withdraw-agent	Withdraw an agent from its journey
+8: withdraw-agent	Withdraw an agent from its journey
 
-9 / exit	Shut down the server
+9: exit	Shut down the server
 
 The server's watch-agents command provides a live debugging view of the simulation, while the client's map provides the player-facing view of their own heroes.
