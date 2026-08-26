@@ -1,33 +1,52 @@
-How it all works!
-The project requires a postgres database.
-There are two main.go files:
+Little Adventure Map
+
+An asynchronous hero-simulation game built with Go and PostgreSQL.
+Players recruit heroes, send them on journeys, and check back later to see what happened. The server advances the world once per second, updating active journeys and recording persistent event logs.
+Sometimes your hero finds food and comes home with extra gold. 
+Sometimes they get their butt kicked by goblins.
+
+- How It Works
+
+The project has two main programs:
 
 server/main.go
 client/main.go
 
-Launching the server first will initialize the psql database with all the proper data required.
-When the server is running, it ticks every one second.
+The server initializes the PostgreSQL database and runs the simulation. While it is running, deployed heroes continue traveling and resolving events every second.
 
-Launching a client will ask for a username and password.
-If the entered one does not exist, it will ask if a new account should be made.
+go run server/main.go
 
-As a new user, you need to hire a hero with the "1" command. The first one is free.
-You can then start a journey with the "2" command.
-When prompted, select a hero that is available and at home.
-Pick a starting corner from the map to start.
-Set coordinates to go to.
-You will be informed of the projected food cost and how much food to buy for your hero.
-Once committed, the hero will journey on their own for a few minutes depending on the length of their journey.
+The client handles accounts, hero management, journeys, and adventure logs.
 
-You can evaluate their journey as they go and check up on the logs they print in the "manage heroes" menu.
+go run client/main.go
 
-And that's the game!
-Sometimes your heroes find food and a bunch of extra gold.
-Sometimes they get their butts kicked by a bunch of goblins. 
+When launching the client, enter a username and password. If the account does not exist, you can create one.
 
-The core elements are all in place.
-I actually plan to update the following elements:
+- Gameplay
 
-Agents can interact with each other and leave logs.
-A combat system that can incorporate multiple participants and alliances.
-Items such as equipment and consumables you can give your heroes, like antidotes to fight spiders.
+New players can hire their first hero for free using the 1 command.
+
+Use 2 to start a journey. Select an available hero, choose a starting corner, and enter a destination. The game will estimate the food required before you commit to the journey.
+
+Once deployed, the hero travels independently for several minutes depending on the route.
+
+You can check their progress and read the events generated during the journey through the Manage Heroes menu.
+
+- Technical Overview
+
+The project uses a separate client and server so the simulation can continue independently of player input. PostgreSQL stores persistent users, heroes, journey state, and event logs.
+Some of the main engineering challenges have been managing time-based journeys, hero state transitions, authentication, and keeping database state synchronized with the simulation.
+
+- Running the Project
+- 
+Requires Go and PostgreSQL.
+
+1: go run server/main.go
+2: go run client/main.go
+3: Create an account, hire a hero, and send them on a journey.
+
+- Roadmap
+
+Future work includes hero-to-hero interactions, multi-participant combat and alliances, equipment, and consumable items such as antidotes that can help heroes prepare for specific encounters.
+
+The core gameplay loop is already in place: hire, prepare, deploy, simulate, review, return.
