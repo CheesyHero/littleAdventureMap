@@ -35,7 +35,7 @@ You can check their progress and read the events generated during the journey th
 - Technical Overview
 
 The project uses a separate client and server so the simulation can continue independently of player input. PostgreSQL stores persistent users, heroes, journey state, and event logs.
-Some of the main engineering challenges have been managing time-based journeys, hero state transitions, authentication, and keeping database state synchronized with the simulation.
+Some of the main engineering challenges have making sure all the syntax is correct. The logic and game data was easy to set up and get working, but saving and iterating to the database when something had a limit or restriction caused some headaches.
 
 - Running the Project
 
