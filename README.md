@@ -4,7 +4,7 @@ An asynchronous hero-simulation game built with Go and PostgreSQL. Players recru
 
 - Motivation
 
-I wanted to build a game where progress happens over time rather than immediately after a button press. That led me to the idea of sending heroes on journeys that continue independently while a server simulates their progress and records what happens. Little Adventure Map became a way for me to explore persistent state, asynchronous gameplay, and database-driven systems while still building a fun an enjoyable experience.
+I wanted to build a game where progress happens over time rather than immediately after a button press. That led me to the idea of sending heroes on journeys that continue independently while a server simulates their progress and records what happens. Little Adventure Map became a way for me to explore persistent state, asynchronous gameplay, and database-driven systems while still building a fun and enjoyable experience.
 
 - How It Works
 
