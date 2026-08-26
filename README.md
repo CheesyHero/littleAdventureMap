@@ -1,4 +1,4 @@
-Little Adventure Map
+#Little Adventure Map
 
 An asynchronous hero-simulation game built with Go and PostgreSQL.
 Players recruit heroes, send them on journeys, and check back later to see what happened. The server advances the world once per second, updating active journeys and recording persistent event logs.
