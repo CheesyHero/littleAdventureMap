@@ -37,6 +37,7 @@ go run server/main.go
 In another terminal, start the client:
 
 go run client/main.go
+
 Create an account, hire a hero, and send them on a journey.
 Use command 7 to open the live map and watch your deployed heroes move across the world.
 
