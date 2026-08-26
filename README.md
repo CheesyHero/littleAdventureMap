@@ -96,3 +96,28 @@ p: pause	Pause or resume the simulation
 9: exit	Shut down the server
 
 The server's watch-agents command provides a live debugging view of the simulation, while the client's map provides the player-facing view of their own heroes.
+
+- Contributing
+
+To work on Little Adventure Map locally, clone the repository and install the Go dependencies:
+
+git clone <repository-url>
+cd littleAdventureMap
+go mod download
+
+Make sure PostgreSQL is running and set your DATABASE_URL environment variable.
+
+Build the project:
+
+go build ./...
+
+Run the test suite:
+
+go test ./...
+
+For local development, start the server and client in separate terminals:
+
+go run server/main.go
+go run client/main.go
+
+If you'd like to contribute, fork the repository and open a pull request with your changes.
