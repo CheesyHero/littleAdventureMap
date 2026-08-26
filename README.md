@@ -5,6 +5,8 @@ Players recruit heroes, send them on journeys, and check back later to see what 
 Sometimes your hero finds food and comes home with extra gold. 
 Sometimes they get their butt kicked by goblins.
 
+I really wanted to learn more about databases and using code to interact with them. Additionally, I wanted to try and build a client/server relationship and learn more about networking. As a game designer, I am also told I should make an idle game as an easy project, and this is the idea I came up with that brings all three ideas together.
+
 - How It Works
 
 The project has two main programs:
