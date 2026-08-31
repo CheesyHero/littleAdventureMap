@@ -1,123 +1,241 @@
 # Little Adventure Map
 
-An asynchronous hero-simulation game built with Go and PostgreSQL. Players recruit heroes, send them on journeys, and check back later to see what happened. The server advances the world state every second, resolving active journeys and recording persistent event logs to PostgreSQL.
+A persistent adventure simulation built with **Go and PostgreSQL**.
 
-## Motivation
+Players recruit heroes, send them on journeys, and check back later to see what happened. A continuously running server advances the world every second, moving heroes across the map, consuming resources, generating events, resolving combat, and recording their history.
 
-I wanted to build a game where progress happens over time rather than immediately after a button press. That led me to the idea of sending heroes on journeys that continue independently while a server simulates their progress and records what happens. Little Adventure Map became a way for me to explore persistent state, asynchronous gameplay, and database-driven systems while still building a fun and enjoyable experience.
+## Why I Built It
 
-## Quick Start
+I wanted to experiment with a game where progress happens over time instead of immediately after a button press.
 
-Make sure PostgreSQL is installed and running, then start the server:
+That simple idea turned into a project focused on:
 
-go run server/main.go
+* Persistent simulation
+* Database-backed game state
+* Resource management
+* Procedural events
+* Turn-based combat
+* Client/server architecture
+* Historical event tracking
 
-The server will initialize the game database and begin running the simulation.
+The game itself is intentionally small. The interesting part is keeping a continuously changing world consistent and observable.
 
-In a second terminal, start the client:
+## Features
 
-go run client/main.go
+* Persistent tick-based simulation
+* Multiple hero classes with different stats and progression
+* Multi-stop journeys across a coordinate-based world
+* Food, health, mana, gold, and experience management
+* Random events with rewards and penalties
+* Weighted monster encounters
+* D20-inspired combat
+* Persistent combat and adventure logs
+* Guild and hero progression
+* Live terminal map
+* Separate Go client and simulation server
+* PostgreSQL-backed state
 
-Log in or create a new account, hire your first hero, and start a journey.
+## Architecture
 
-## Technical Overview
+```text
+Player Client
+     │
+     ▼
+ PostgreSQL
+     ▲
+     │
+Simulation Server
+     │
+     ├── Movement
+     ├── Random Events
+     ├── Combat
+     └── Progression
+```
 
-The project uses a separate client and server so the simulation can continue independently of player input. PostgreSQL stores persistent users, heroes, journey state, and event logs.
+The **client** handles player interaction.
 
-The main engineering challenges came from keeping the simulation and database state synchronized while enforcing gameplay restrictions. Individual systems were fairly straightforward to build, but handling database constraints, state transitions, and repeated updates from the simulation required considerably more iteration.
+The **server** runs independently and advances the world once per second.
 
-## Running the Project
+**PostgreSQL** acts as the persistent source of truth shared by both processes.
 
-Requires Go and PostgreSQL.
+## Simulation
 
-Set your DATABASE_URL and start the server:
+Each server tick processes the world in phases:
 
-go run server/main.go
+```text
+Tick
+ │
+ ├── Movement
+ │     Advance deployed heroes
+ │
+ ├── Events
+ │     Consume resources
+ │     Apply regeneration
+ │     Roll random encounters
+ │
+ └── Combat
+       Resolve turns
+       Remove defeated combatants
+       Award rewards
+       Record history
+```
 
-In another terminal, start the client:
+Separating these phases makes state transitions easier to reason about and prevents newly created events from unexpectedly resolving during the same phase.
 
-go run client/main.go
+## Journeys
 
-Create an account, hire a hero, and send them on a journey.
-Use command 7 to open the live map and watch your deployed heroes move across the world.
+Heroes can be assigned several destinations before leaving home.
 
-## Usage
+Longer journeys consume more food and expose the hero to more events, creating a tradeoff between risk and potential rewards.
 
-Little Adventure Map has two command interfaces: the client, used to play the game, and the server console, used to monitor and manage the simulation.
+During an adventure a hero may:
 
-Client Commands
+* Find or lose food
+* Discover gold
+* Take damage
+* Recover health or mana
+* Encounter monsters
+* Gain experience
+* Return home with accumulated rewards
 
-1:	Hire a Hero
+## Combat
 
-2:	Deploy a Hero on a journey
+Monster encounters create persistent engagements between parties.
 
-3:	Manage Heroes and view adventure logs
+Combat currently includes:
 
-4:	View Inventory
+* Agility-based turn order
+* D20-style hit rolls
+* Strength and defense-based damage
+* Multiple combatants
+* Defending and fleeing
+* Defeat handling
+* Experience and gold rewards
 
-5:	Open the Market
+When a combatant is defeated, their rewards are added to the engagement. When combat ends, the total rewards are divided among the surviving heroes.
 
-6:	Open the Library
+Combat is also recorded in each participating hero's adventure log.
 
-7:	View the live world map
+```text
+Combat
+Quincy dealt 18.42 damage to Orc.
 
-8:	Quit
+Combat
+Orc was defeated.
 
-The live map displays each deployed hero as a uniquely colored marker and refreshes every second as the server advances the simulation. Press any key to return to the main menu.
+Combat
+Quincy emerged victorious.
+Gained 20 EXP and 50 Gold.
+```
 
-Server Commands
+## Live Map
 
-The server also provides an admin console for inspecting and controlling the simulation.
+The client includes a live terminal map that refreshes while the simulation runs.
 
-0: help	Show available commands
+```text
+World Map
 
-1: add-user	Create a test user
+100 |.........................................|
+    |......................●..................|
+    |.........................................|
+    |............!!...........................|
+    |.........................................|
+  0 |.........................................|
+     -----------------------------------------
+     0                                     100
+```
 
-2: print-users	View all users
+Each hero has their own marker, while heroes currently in combat are highlighted separately.
 
-e: edit-user	Edit user progression
+This makes the asynchronous simulation visible instead of leaving everything hidden in database state and logs.
 
-3: add-agent	Create an agent
+## Running Locally
 
-4: print-agents	View all agents
+Requires:
 
-a: edit-agent	Edit agent stats
+* Go
+* PostgreSQL
 
-5: set-destination	Deploy an agent to a destination
+Clone the project:
 
-6: print-destinations	View an agent's route and status
-
-7: watch-agents	Watch agent movement live
-
-p: pause	Pause or resume the simulation
-
-8: withdraw-agent	Withdraw an agent from its journey
-
-9: exit	Shut down the server
-
-The server's watch-agents command provides a live debugging view of the simulation, while the client's map provides the player-facing view of their own heroes.
-
-## Contributing
-
-To work on Little Adventure Map locally, clone the repository and install the Go dependencies:
-
+```bash
 git clone <repository-url>
 cd littleAdventureMap
+```
+
+Install dependencies:
+
+```bash
 go mod download
+```
 
-Make sure PostgreSQL is running and set your DATABASE_URL environment variable.
+Set your database connection:
 
-Build the project:
+```bash
+export DATABASE_URL="your-postgresql-connection-string"
+```
 
-go build ./...
+Start the server:
 
-Run the test suite:
-
-go test ./...
-
-For local development, start the server and client in separate terminals:
-
+```bash
 go run server/main.go
-go run client/main.go
+```
 
-If you'd like to contribute, fork the repository and open a pull request with your changes.
+Then start the client in another terminal:
+
+```bash
+go run client/main.go
+```
+
+Create an account, recruit a hero, and send them on an adventure.
+
+Use **View Map** from the client to watch deployed heroes move through the world.
+
+## Development
+
+Build:
+
+```bash
+go build ./...
+```
+
+Test:
+
+```bash
+go test ./...
+```
+
+Format:
+
+```bash
+gofmt -w .
+```
+
+The server also includes an admin console for inspecting users, heroes, destinations, and live simulation state.
+
+## Engineering Lessons
+
+The biggest challenge has not been any individual game mechanic, but coordinating state across a continuously running simulation and a relational database.
+
+Areas that required the most iteration include:
+
+* Keeping simulation and database state synchronized
+* Safely transitioning heroes between travel, combat, defeat, and return states
+* Managing relationships between parties and engagements
+* Handling rewards without losing or duplicating state
+* Making asynchronous behavior observable for debugging
+
+## Next Steps
+
+Planned improvements include:
+
+* Deterministic simulations using configurable random seeds
+* More transactional combat and reward updates
+* Protection against multiple servers processing the same state
+* Structured logging and simulation metrics
+* More deterministic tests around combat and journey rules
+* Expanded items, abilities, and inventory systems
+
+## About the Project
+
+I always wanted to both build and idle game and learn about networking and servers so I could play with my friends, and this was my solution!Building around that idea gave me a practical way to explore persistent state, asynchronous systems, simulation design, PostgreSQL, and Go while still making something interactive and fun. My next goal is to build a GUI for the project and take it online.
